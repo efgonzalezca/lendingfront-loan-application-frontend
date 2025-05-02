@@ -45,8 +45,31 @@ export default function LoanApplicationForm({ setResult, setError }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    validateField(name, value);
+    let filteredValue = value;
+    if (name === 'taxId') {
+      filteredValue = value.replace(/[^\d]/g, '').slice(0, 10);
+    } else if (name === 'amount') {
+      let numeric = value.replace(/[^0-9.]/g, '');
+      const parts = numeric.split('.');
+      if (parts.length > 2) {
+        numeric = parts[0] + '.' + parts.slice(1).join('');
+      }
+      if (numeric.startsWith('0') && numeric.length > 1 && !numeric.startsWith('0.')) {
+        numeric = numeric.replace(/^0+/, '');
+      }
+      if (numeric.includes('.')) {
+        const [intPart, decimalPart] = numeric.split('.');
+        numeric = intPart + '.' + decimalPart.slice(0, 2);
+      }
+      if (parseFloat(numeric) > 1000000) {
+        numeric = '1000000';
+      }
+      filteredValue = numeric;
+    } else if (name === 'name') {
+      filteredValue = value.slice(0, 100);
+    }
+    setForm((prev) => ({ ...prev, [name]: filteredValue }));
+    validateField(name, filteredValue);
   }
 
   const handleSubmit = async (e) => {
