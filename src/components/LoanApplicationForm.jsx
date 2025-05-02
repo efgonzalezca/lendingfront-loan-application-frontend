@@ -93,17 +93,17 @@ export default function LoanApplicationForm({ setResult, setError }) {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="taxId">Tax ID</label>
-        <input name="taxId" value={form.taxId} onChange={handleChange} />
+        <input id="taxId" name="taxId" value={form.taxId} onChange={handleChange} />
         <span>{errors.taxId}</span>
       </div>
       <div>
         <label htmlFor="name">Business Name</label>
-        <input name="name" value={form.name} onChange={handleChange} />
+        <input id="name" name="name" value={form.name} onChange={handleChange} />
         <span>{errors.name}</span>
       </div>
       <div>
         <label htmlFor="amount">Requested Amount</label>
-        <input name="amount" value={form.amount} onChange={handleChange} />
+        <input id="amount" name="amount" value={form.amount} onChange={handleChange} />
         <span>{errors.amount}</span>
       </div>
       <button type="submit">Apply</button>
